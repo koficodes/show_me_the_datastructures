@@ -1,0 +1,2 @@
+A blockchain can be modeled as interconnected nodes of data.
+This can be implemented as a linked list with each item as a block/node with a timestamp, data, hash, etc as instance variables. This blockchain has an append and size method. Each involves traversal of the linked list. Hence the orders of both methods can be considers as O(n)

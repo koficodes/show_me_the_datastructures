@@ -11,11 +11,11 @@ class Node:
         self.left = None
         self.right = None
 
-    def __cmp__(self, other):
+    def __lt__(self, other):
         if other is None or not isinstance(other, Node):
             return -1
 
-        return self.frequency > other.frequency
+        return self.frequency < other.frequency
 
 
 class HuffmanTree:
@@ -85,6 +85,12 @@ class HuffmanTree:
 
 
 def huffman_encoding(data):
+    if not data:
+        raise("Requires text to encode or decode")
+
+    if len(set(data)) == 1:
+        raise("Requires a valid word or sentence")
+
     hTree = HuffmanTree(data)
     freq = hTree.get_frequency()
     hTree.create_heap(freq)
@@ -98,11 +104,7 @@ def huffman_decoding(data, tree):
     return tree.make_decoded_text(data)
 
 
-if __name__ == "__main__":
-    # codes = {}
-
-    a_great_sentence = "The bird is the word"
-
+def test_encode_decode(a_great_sentence):
     print("The size of the data is: {}\n".format(
         sys.getsizeof(a_great_sentence)))
     print("The content of the data is: {}\n".format(a_great_sentence))
@@ -118,3 +120,31 @@ if __name__ == "__main__":
     print("The size of the decoded data is: {}\n".format(
         sys.getsizeof(decoded_data)))
     print("The content of the encoded data is: {}\n".format(decoded_data))
+
+
+if __name__ == "__main__":
+
+    test_inputs = ["The bird is the word", "AAAAAAA", ""]
+
+    for i in test_inputs:
+        test_encode_decode(i)
+
+# The size of the data is: 69
+
+# The content of the data is: The bird is the word
+
+# 1000111111100100001101110000101110110110100011111111001101010011100001
+# The size of the encoded data is: 36
+
+# The content of the encoded data is: 1000111111100100001101110000101110110110100011111111001101010011100001
+
+# The size of the decoded data is: 69
+
+# The content of the encoded data is: The bird is the word
+
+# The size of the data is: 56
+
+# The content of the data is: AAAAAAA
+# Raises Exception raise("Requires a valid word or sentence")
+# Raises Exception
+# raise("Requires text to encode or decode")

@@ -20,7 +20,7 @@ class Group(object):
         return self.name
 
 
-def is_user_in_group(user, group):
+def is_user_in_group(user, group=None):
     """
     Return True if user is in the group, False otherwise.
 
@@ -28,7 +28,8 @@ def is_user_in_group(user, group):
       user(str): user name/id
       group(class:Group): group to check user membership against
     """
-
+    if group is None:
+        return False
     if user in group.get_users():
         return True
 
@@ -49,4 +50,8 @@ sub_child.add_user(sub_child_user)
 child.add_group(sub_child)
 parent.add_group(child)
 
-print(is_user_in_group(sub_child_user, parent))
+unknown_user = 'unknown_user'
+
+print(is_user_in_group(sub_child_user, parent))  # True
+print(is_user_in_group(unknown_user, parent))  # False
+print(is_user_in_group(sub_child_user))  # False

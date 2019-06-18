@@ -28,14 +28,15 @@ def find_files(suffix=None, path=None):
     for path_item in path_content:
 
         if os.path.isfile(os.path.join(path, path_item)) and path_item.endswith(suffix):
-            files_found.append(path_item)
+            files_found.append(os.path.join(path, path_item))
         if os.path.isdir(os.path.join(path, path_item)):
             files_found += find_files(suffix,
                                       os.path.join(path, path_item))
     return files_found
 
 
-print(find_files('.c', TEST_DIR))  # ['a.c', 'b.c', 't1.c', 'a.c']
+# ['/home/paul/testdir/subdir1/a.c', '/home/paul/testdir/subdir3/subsubdir1/b.c', '/home/paul/testdir/t1.c', '/home/paul/testdir/subdir5/a.c']
+print(find_files('.c', TEST_DIR))
 print(find_files())  # []
 print(find_files('', ''))  # []
 print(find_files(''))  # []

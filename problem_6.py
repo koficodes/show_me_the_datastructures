@@ -51,6 +51,8 @@ class LinkedList:
 
 
 def union(llist_1, llist_2):
+    if not llist_1 or len(llist_1) == 0 or not llist_2 or len(llist_2) == 0:
+        raise('Empty list not allowed')
     union_list = set(llist_1.list_values()) | set(llist_2.list_values())
     union_linked_list = LinkedList()
 
@@ -60,6 +62,8 @@ def union(llist_1, llist_2):
 
 
 def intersection(llist_1, llist_2):
+    if not llist_1 or len(llist_1) == 0 or not llist_2 or len(llist_2) == 0:
+        raise('Empty list is not allowed')
     intersection_list = set(llist_1.list_values()) & set(llist_2.list_values())
     intersection_linked_list = LinkedList()
 
@@ -101,3 +105,5 @@ for i in element_2:
 
 print(union(linked_list_3, linked_list_4))
 print(intersection(linked_list_3, linked_list_4))
+print(union([], linked_list_1))
+print(intersection(linked_list_2, []))

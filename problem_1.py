@@ -14,8 +14,10 @@ class CacheItem:
 
 class LRU_Cache:
 
-    def __init__(self, capacity):
+    def __init__(self, capacity=None):
         # Initialize class variables
+        if not capacity:
+            raise("Cache size required")
         self.capacity = capacity
         self.bucket = {}
 
@@ -46,7 +48,7 @@ class LRU_Cache:
 
         cache_item = CacheItem(key, value)
         if self.capacity == len(self.bucket):
-            least_used = min(self.bucket.items(), key=lambda x: x.last_used)
+            least_used = min(self.bucket.values(), key=lambda x: x.last_used)
             del self.bucket[least_used.key]
 
         self.bucket[key] = cache_item
@@ -56,8 +58,28 @@ our_cache = LRU_Cache(5)
 
 our_cache.set(1, 1)
 our_cache.set(2, 2)
+our_cache.set()
 our_cache.get(1)       # returns 1
 our_cache.get(2)       # returns 2
 our_cache.get(3)       # return -1
 our_cache.get()        # return -1
-print(our_cache.get())
+
+
+our_cache = LRU_Cache(4)
+
+our_cache.set(1, 1)
+our_cache.set(2, 2)
+our_cache.set(3, 3)
+
+
+our_cache.get(1)       # returns 1
+our_cache.get(2)       # returns 2
+our_cache.get(9)      # returns -1 because 9 is not present in the cache
+
+our_cache.set(5, 5)
+our_cache.set(6, 6)
+
+our_cache.get(3)  # returns -1
+
+
+our_cache = LRU_Cache()  # rases exception raise("Cache size required")

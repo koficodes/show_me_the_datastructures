@@ -5,3 +5,9 @@ Heap is used to hold the nodes before the merging phase of the algorithm since t
 
 The tree is traversed with recursion when generation the codes for the characters.
 After the codes are generated they are stored/cached in a HashMap/Dictionary for efficient access for both encoding and decoding.
+
+The run time of most intance methods involves one looping but creat_heap and merge_node involves extra heappush or heappop operation which adds extra O(log n) to the runtime of such methods.
+The method with the worse run time is merge_node. This method
+does two heappop operations O(2*log n) plus one heappush O(log n) and one while loop of Order O(n) in total we have O(2*log h + log h + h) making O(3logn+n). where h is the size of the heap
+
+The space complexity of this algorithm includes the size of the HuffmanTree which is the sum of size the heap(h),codes hashmap(c) and reverse code hashmap (r) ie O(size(h) + size(c) +size(r))

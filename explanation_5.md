@@ -1,2 +1,4 @@
 A blockchain can be modeled as interconnected nodes of data.
-This can be implemented as a linked list with each item as a block/node with a timestamp, data, hash, etc as instance variables. This blockchain has an append and size method. Each involves traversal of the linked list. Hence the orders of both methods can be considers as O(n)
+This can be implemented as a linked list with each item as a block/node with a timestamp, data, hash, etc as instance variables. This blockchain has an append and size method. Each involves traversal of the linked list. Hence the orders of both methods can be considers as O(n). where n is the number of the nodes.
+
+The space complexity of the blockchain is the sum of size the containing blocks whose is size is also a sum of the size of the individual instance variables.Therefore space complexity can be O(xb). where x is the number of blocks and b is the size of each block.

@@ -10,3 +10,6 @@ All get operations is always O(1).
 The set operations is mostly 0(1) but when the capicity of the catch bucket is full the least used catch item has to be removed. This involves using the 'min' function which has an order of O(n) and also del function with an order of O(1) for average case or 0(n) for Amortized Worst Case. since we considering a dict of at most five items we will consider the average case.
 
 In conclusion, averagely all operation are Order of O(1).
+
+The space complexity is determined by capacity of the catch bucket.
+hence it will have the order 0(c) where c is the size of the capacity of the Cache bucket.

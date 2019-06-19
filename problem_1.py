@@ -1,24 +1,15 @@
-import time
-
-
-class CacheItem:
-
-    def __init__(self, key, value):
-        self.last_used = time.time()
-        self.value = value
-        self.key = key
-
-    def __str__(self):
-        return f"key:{self.key}, value: {self.value} ,last_used:{self.last_used}"
+import warnings
+from collections import deque
 
 
 class LRU_Cache:
 
-    def __init__(self, capacity=None):
+    def __init__(self, capacity=5):
         # Initialize class variables
         if not capacity:
-            raise("Cache size required")
+            warnings.warn("Cache size required, using 5 as default")
         self.capacity = capacity
+        self.access_rank = deque(maxlen=capacity)
         self.bucket = {}
 
     def __str__(self):
@@ -33,8 +24,8 @@ class LRU_Cache:
             return -1
 
         if key in self.bucket:
-            self.bucket[key].last_used = time.time()
-            return self.bucket[key].value
+            self.access_rank.appendleft(key)
+            return self.bucket[key]
 
         return -1
 
@@ -46,12 +37,10 @@ class LRU_Cache:
         # Set the value if the key is not present in the cache.
         # If the cache is at capacity remove the oldest item.
 
-        cache_item = CacheItem(key, value)
         if self.capacity == len(self.bucket):
-            least_used = min(self.bucket.values(), key=lambda x: x.last_used)
-            del self.bucket[least_used.key]
-
-        self.bucket[key] = cache_item
+            least_used_key = self.access_rank.pop()
+            del self.bucket[least_used_key]
+        self.bucket[key] = value
 
 
 our_cache = LRU_Cache(5)
@@ -82,4 +71,4 @@ our_cache.set(6, 6)
 our_cache.get(3)  # returns -1
 
 
-our_cache = LRU_Cache()  # rases exception raise("Cache size required")
+our_cache = LRU_Cache()  # gives warning

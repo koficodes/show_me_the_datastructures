@@ -1,6 +1,7 @@
 import sys
 from collections import defaultdict
 import heapq
+import warnings
 
 
 class Node:
@@ -84,12 +85,16 @@ class HuffmanTree:
         return decoded_text
 
 
-def huffman_encoding(data):
-    if not data:
-        raise("Requires text to encode or decode")
-
-    if len(set(data)) == 1:
-        raise("Requires a valid word or sentence")
+def huffman_encoding(data=None):
+    if not data or len(data) == 0:
+        warnings.warn("Requires text to encode or decode")
+        return
+    char_set = list(set(data))
+    if len(char_set) == 1:
+        hTree = HuffmanTree(data)
+        hTree.codes["1"] = char_set[0]
+        hTree.reverse_codes[char_set[0]] = "1"
+        return "1", hTree
 
     hTree = HuffmanTree(data)
     freq = hTree.get_frequency()
@@ -100,7 +105,11 @@ def huffman_encoding(data):
     return encoded_data, hTree
 
 
-def huffman_decoding(data, tree):
+def huffman_decoding(data=None, tree=None):
+    if data is None or tree is None:
+        return warnings.warn("Data or HuffmanTree required")
+    if len(tree.reverse_codes) == 1:
+        return tree.text
     return tree.make_decoded_text(data)
 
 
@@ -110,7 +119,7 @@ def test_encode_decode(a_great_sentence):
     print("The content of the data is: {}\n".format(a_great_sentence))
 
     encoded_data, tree = huffman_encoding(a_great_sentence)
-    print(encoded_data)
+
     print("The size of the encoded data is: {}\n".format(
         sys.getsizeof(int(encoded_data, base=2))))
     print("The content of the encoded data is: {}\n".format(encoded_data))
@@ -124,27 +133,7 @@ def test_encode_decode(a_great_sentence):
 
 if __name__ == "__main__":
 
-    test_inputs = ["The bird is the word", "AAAAAAA", ""]
+    test_inputs = ["The bird is the word", "AAAAAAA", " "]
 
     for i in test_inputs:
         test_encode_decode(i)
-
-# The size of the data is: 69
-
-# The content of the data is: The bird is the word
-
-# 1000111111100100001101110000101110110110100011111111001101010011100001
-# The size of the encoded data is: 36
-
-# The content of the encoded data is: 1000111111100100001101110000101110110110100011111111001101010011100001
-
-# The size of the decoded data is: 69
-
-# The content of the encoded data is: The bird is the word
-
-# The size of the data is: 56
-
-# The content of the data is: AAAAAAA
-# Raises Exception raise("Requires a valid word or sentence")
-# Raises Exception
-# raise("Requires text to encode or decode")

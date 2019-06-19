@@ -1,3 +1,6 @@
+import warnings
+
+
 class Node:
     def __init__(self, value):
         self.value = value
@@ -31,6 +34,9 @@ class LinkedList:
 
         node.next = Node(value)
 
+    def __len__(self):
+        self.size()
+
     def size(self):
         size = 0
         node = self.head
@@ -50,9 +56,12 @@ class LinkedList:
         return values
 
 
-def union(llist_1, llist_2):
-    if not llist_1 or len(llist_1) == 0 or not llist_2 or len(llist_2) == 0:
-        raise('Empty list not allowed')
+def union(llist_1=None, llist_2=None):
+
+    if not isinstance(llist_1, LinkedList) or not isinstance(llist_2, LinkedList):
+        warnings.warn('Arguments should be instance of LinkedList.')
+        return
+
     union_list = set(llist_1.list_values()) | set(llist_2.list_values())
     union_linked_list = LinkedList()
 
@@ -61,9 +70,12 @@ def union(llist_1, llist_2):
     return union_linked_list
 
 
-def intersection(llist_1, llist_2):
-    if not llist_1 or len(llist_1) == 0 or not llist_2 or len(llist_2) == 0:
-        raise('Empty list is not allowed')
+def intersection(llist_1=None, llist_2=None):
+
+    if not isinstance(llist_1, LinkedList) or not isinstance(llist_2, LinkedList):
+        warnings.warn('Arguments should be instance of LinkedList.')
+        return
+
     intersection_list = set(llist_1.list_values()) & set(llist_2.list_values())
     intersection_linked_list = LinkedList()
 
@@ -105,5 +117,7 @@ for i in element_2:
 
 print(union(linked_list_3, linked_list_4))
 print(intersection(linked_list_3, linked_list_4))
+print(union(LinkedList(), linked_list_1))
+print(intersection(linked_list_2, LinkedList()))
 print(union([], linked_list_1))
-print(intersection(linked_list_2, []))
+print(union(linked_list_1))
